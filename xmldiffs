@@ -81,21 +81,28 @@ else:
 	def unicode_writer(fp):
 		return fp
 
-def xmldiffs(file1, file2, diffargs=["-u"]):
-	tree = ET.parse(file1)
-	tmp1 = unicode_writer(NamedTemporaryFile('w'))
-	write_sorted(tmp1, tree.getroot())
-	tmp1.flush()
+def convertFile(file1):
+    tree = ET.parse(file1)
+    file1Sorted = open("file1Sorted.xml", "w")
+    write_sorted(file1Sorted, tree.getroot())
+    file1Sorted.flush()
+    # file1Sorted.close()
+    return file1Sorted
 
-	tree = ET.parse(file2)
-	tmp2 = unicode_writer(NamedTemporaryFile('w'))
-	write_sorted(tmp2, tree.getroot())
-	tmp2.flush()
+def xmldiffs(file1, file2, diffargs=["-u"]):
+	file1Sorted = convertFile(file1)
+
+	# tree = ET.parse(file2)
+	# file2Sorted = open("file2Sorted.xml", "w")
+	# write_sorted(file2Sorted, tree.getroot())
+	# file2Sorted.flush()
+	# file2Sorted.close()
+	file2Sorted = convertFile(file2)
 
 	args = [ "diff" ]
 	args += diffargs
 	args += [ "--label", file1, "--label", file2 ]
-	args += [ tmp1.name, tmp2.name ]
+	args += [ file1Sorted.name, file2Sorted.name ]
 
 	return subprocess.call(args)
 
