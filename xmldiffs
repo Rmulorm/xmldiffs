@@ -83,23 +83,18 @@ else:
 
 def convertFile(file1):
 	tree = ET.parse(file1)
-	file1Sorted = open("file1Sorted.xml", "w")
-	write_sorted(file1Sorted, tree.getroot())
-	file1Sorted.flush()
-	# file1Sorted.close()
-	return file1Sorted
+	sortedFile = open("file1Sorted.xml", "w")
+	write_sorted(sortedFile, tree.getroot())
+	sortedFile.flush()
+	sortedFile.close()
+	return sortedFile
+
 
 def xmldiffs(file1, file2, diffargs=["-u"]):
 	file1Sorted = convertFile(file1)
-
-	# tree = ET.parse(file2)
-	# file2Sorted = open("file2Sorted.xml", "w")
-	# write_sorted(file2Sorted, tree.getroot())
-	# file2Sorted.flush()
-	# file2Sorted.close()
 	file2Sorted = convertFile(file2)
 
-	args = [ "diff" ]
+	args = [ "meld" ]
 	args += diffargs
 	args += [ "--label", file1, "--label", file2 ]
 	args += [ file1Sorted.name, file2Sorted.name ]
