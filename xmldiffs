@@ -82,12 +82,12 @@ else:
 		return fp
 
 def convertFile(file1):
-    tree = ET.parse(file1)
-    file1Sorted = open("file1Sorted.xml", "w")
-    write_sorted(file1Sorted, tree.getroot())
-    file1Sorted.flush()
-    # file1Sorted.close()
-    return file1Sorted
+	tree = ET.parse(file1)
+	file1Sorted = open("file1Sorted.xml", "w")
+	write_sorted(file1Sorted, tree.getroot())
+	file1Sorted.flush()
+	# file1Sorted.close()
+	return file1Sorted
 
 def xmldiffs(file1, file2, diffargs=["-u"]):
 	file1Sorted = convertFile(file1)
