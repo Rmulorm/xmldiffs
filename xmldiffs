@@ -91,11 +91,12 @@ def convertFile(file, sortedFileName):
 	return sortedFile
 
 
-def xmldiffs(file1, file2, diffargs=["-u"]):
+def xmldiffs(file1, file2, diffargs):
 	file1Sorted = convertFile(file1, "file1Sorted.xml")
 	file2Sorted = convertFile(file2, "file2Sorted.xml")
-	args = [ "meld" ]
+	args = [ "diff" ]
 	args += diffargs
+	args += [ "--ignore-matching-lines='.*SequenceNum.*'" ]
 	args += [ "--label", file1, "--label", file2 ]
 	args += [ file1Sorted.name, file2Sorted.name ]
 
@@ -118,6 +119,6 @@ if __name__ == '__main__':
 
 	file2 = args.pop(-1)
 	file1 = args.pop(-1)
-	diffargs = args if args else ["-u"]
+	diffargs = args if args else []
 
 	exit(xmldiffs(file1, file2, diffargs))
