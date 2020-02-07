@@ -96,6 +96,9 @@ def xmldiffs(file1, file2, diffargs):
 	file2Sorted = convertFile(file2, "file2Sorted.xml")
 	args = [ "diff" ]
 	args += diffargs
+	args += [ "--ignore-matching-lines='.*SequenceNum.*'" ]
+	args += [ "--label", file1, "--label", file2 ]
+	args += [ file1Sorted.name, file2Sorted.name ]
 
 	return subprocess.call(args)
 
