@@ -81,9 +81,10 @@ else:
 	def unicode_writer(fp):
 		return fp
 
-def convertFile(file1):
-	tree = ET.parse(file1)
-	sortedFile = open("file1Sorted.xml", "w")
+def convertFile(file, sortedFileName):
+	tree = ET.parse(file)
+	sortedFile = open(sortedFileName, "w")
+
 	write_sorted(sortedFile, tree.getroot())
 	sortedFile.flush()
 	sortedFile.close()
@@ -91,9 +92,8 @@ def convertFile(file1):
 
 
 def xmldiffs(file1, file2, diffargs=["-u"]):
-	file1Sorted = convertFile(file1)
-	file2Sorted = convertFile(file2)
-
+	file1Sorted = convertFile(file1, "file1Sorted.xml")
+	file2Sorted = convertFile(file2, "file2Sorted.xml")
 	args = [ "meld" ]
 	args += diffargs
 	args += [ "--label", file1, "--label", file2 ]
